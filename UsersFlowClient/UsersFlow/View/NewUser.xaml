@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="UsersFlow.View.NewUser"
+    BackgroundColor="White">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout
+            Spacing="10"
+            VerticalOptions="Start"
+            HorizontalOptions="FillAndExpand"
+            Padding="20">
+                <StackLayout
+                Orientation="Horizontal">
+                <Label
+                Text="Sign Up"
+                FontSize="50"
+                TextColor="#4682B4"
+                HorizontalOptions="Center"
+                FontAttributes="Bold"
+                Margin="20,20,20,20"/>
+                <Image
+                Source="add-group.png"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Margin="10,10,10,10"
+                 HorizontalOptions="EndAndExpand"/>
+                </StackLayout>
+            
+            <Entry
+                x:Name="input_username"
+                Placeholder="Choose a new username"
+                ClearButtonVisibility="WhileEditing"
+                TextTransform="Lowercase"
+                HorizontalTextAlignment="Center"
+                PlaceholderColor="#B6B7B7"
+                TextColor="Black"
+                Margin="10,10,10,10"
+                HeightRequest="50"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Start"/>
+            <Entry
+                x:Name="input_password"
+                Placeholder="Choose your password"
+                IsPassword="True"
+                ClearButtonVisibility="WhileEditing"
+                HorizontalTextAlignment="Center"
+                PlaceholderColor="#B6B7B7"
+                TextColor="Black"
+                Margin="10,10,10,10"
+                HeightRequest="50"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Start"
+                />
+            
+            <Entry
+                x:Name="name"
+                Placeholder="Enter user's name"
+                ClearButtonVisibility="WhileEditing"
+                HorizontalTextAlignment="Center"
+                PlaceholderColor="#B6B7B7"
+                TextColor="Black"
+                Margin="10,0,10,10"
+                HeightRequest="50"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Start"
+                    />
+            <Entry
+                x:Name="birth"
+                Placeholder="Birth"
+                ClearButtonVisibility="WhileEditing"
+                HorizontalTextAlignment="Center"
+                PlaceholderColor="#B6B7B7"
+                TextColor="Black"
+                Margin="10,0,10,10"
+                HeightRequest="50"
+                HorizontalOptions="Fill"
+                VerticalOptions="Start"/>
+            <StackLayout
+                Orientation="Horizontal">
+                <Label
+                Text="The following data will be protected with FHE encryption"
+                TextColor="#89CFF0"
+                Margin="10,10,10,10"
+                FontAttributes="Bold"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="Center"/>
+                <Image
+                    Source="protected.png"/>
+
+            </StackLayout>
+            
+            <Entry
+                x:Name="dni"
+                Placeholder="DNI"
+                ClearButtonVisibility="WhileEditing"
+                HorizontalTextAlignment="Center"
+                PlaceholderColor="#B6B7B7"
+                TextColor="Black"
+                Margin="10,0,10,10"
+                HeightRequest="50"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Start"/>
+            <Entry
+                x:Name="SegSocialNumb"
+                Placeholder="Social's Security Number"
+                HorizontalTextAlignment="Center"
+                PlaceholderColor="#B6B7B7"
+                ClearButtonVisibility="WhileEditing"
+                TextColor="Black"
+                Margin="10,0,10,10"
+                HeightRequest="50"
+                HorizontalOptions="Fill"
+                VerticalOptions="Start"
+                />
+
+            <Entry
+                x:Name="iban"
+                Placeholder="Bank's IBAN Number"
+                HorizontalTextAlignment="Center"
+                PlaceholderColor="#B6B7B7"
+                ClearButtonVisibility="WhileEditing"
+                TextColor="Black"
+                Margin="10,0,10,10"
+                HeightRequest="50"
+                HorizontalOptions="Fill"
+                VerticalOptions="Start"/>
+
+           <Picker x:Name="privs"
+                Title="Pick your role in the company"
+                HorizontalTextAlignment="Center"
+                TitleColor="White"
+                TextColor="Black"
+                Margin="10,0,10,10"
+                HeightRequest="50"
+                HorizontalOptions="Fill"
+                VerticalOptions="Start"
+                BackgroundColor="#4682B4"
+                
+               >
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                <x:String>Developer</x:String>
+                <x:String>Manager</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+            </Picker>
+            <ActivityIndicator
+            x:Name="spinner"
+            IsRunning="{Binding IsBusy}" 
+            Color="#4682B4"
+            HeightRequest="50"
+            WidthRequest="50"
+            IsVisible="false"/>
+            <Button
+            Clicked="save_button"
+            Text="SAVE"
+            VerticalOptions="Center"
+            FontAttributes="Bold"
+            TextColor="White"
+            BackgroundColor="#4682B4"
+            BorderWidth="1.5"
+            CornerRadius="20"
+            BorderColor="#4682B4"
+            Margin="20,20,20,20"
+            HeightRequest="50"/>
+        </StackLayout>
+        </ScrollView>
+        
+        
+    </ContentPage.Content>
+</ContentPage>
+

@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="UsersFlow.View.ScheduleHistory">
+     <NavigationPage.TitleView>
+        <StackLayout
+            Orientation="Horizontal"
+            Padding="10"
+            >
+            <Label
+                Text="Schedule"
+                FontAttributes="Bold"
+                
+                />
+            <Image
+                Source="managing.png"
+                HorizontalOptions="EndAndExpand"/>
+
+        </StackLayout>
+
+    </NavigationPage.TitleView>
+       <ContentPage.Resources>
+        <DataTemplate
+            x:Key="ScheduleTemplate">
+            <StackLayout>
+                <Frame
+                    CornerRadius="20"
+                    BackgroundColor="White"
+                    HasShadow="True"
+                    Margin="20"
+                    VerticalOptions="StartAndExpand"
+                    BorderColor="#4682B4">
+                    <StackLayout>
+                        <StackLayout
+                            Orientation="Horizontal"
+                            Margin="0,10,0,10">
+                            <Label Text="Date: "
+                                FontAttributes="Bold"
+                                FontSize="20"
+                                TextColor="#4682B4"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Center"
+
+                                />
+                        <Entry Text="{Binding date, Mode=TwoWay}"
+                                ClearButtonVisibility="WhileEditing"
+                                TextColor="Black"
+                                HeightRequest="40"
+                               WidthRequest="200"
+                                HorizontalOptions="EndAndExpand"
+                               HorizontalTextAlignment="Center"
+                               VerticalOptions="Center"
+                               
+                                />
+                        </StackLayout>
+                        <StackLayout
+                            Orientation="Horizontal"
+                            Margin="0,10,0,10">
+                            <Label Text="Entry time: "
+                                FontAttributes="Bold"
+                                FontSize="20"
+                                TextColor="#4682B4"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Center"
+                                />
+                        <Entry Text="{Binding entry_hour_ciph, Mode=TwoWay}"
+                                ClearButtonVisibility="WhileEditing"
+                                TextColor="Black"
+                                HeightRequest="40"
+                               WidthRequest="200"
+                                HorizontalOptions="EndAndExpand"
+                               HorizontalTextAlignment="Center"
+                               x:Name="NewUsername"
+                                />
+                        </StackLayout>
+                        <StackLayout
+                            Orientation="Horizontal"
+                            Margin="0,10,0,10">
+                             <Label Text="Leave Time: "
+                                FontSize="20"
+                                FontAttributes="Bold"
+                                TextColor="#4682B4"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Center"
+                                />
+                        <Entry Text="{Binding leave_hour_ciph, Mode=TwoWay}"
+                                ClearButtonVisibility="WhileEditing"
+                                TextColor="Black"
+                                HeightRequest="40"
+                               WidthRequest="200"
+                                HorizontalOptions="EndAndExpand"
+                               HorizontalTextAlignment="Center"
+                                />
+                            </StackLayout>
+                        <StackLayout
+                            Orientation="Horizontal"
+                            Margin="0,10,0,10">
+                             <Label Text="Worked hours: "
+                                FontSize="20"
+                                FontAttributes="Bold"
+                                TextColor="#4682B4"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Center"
+                                />
+                        <Entry Text="{Binding balance_ciph, Mode=TwoWay}"
+                                ClearButtonVisibility="WhileEditing"
+                                TextColor="Black"
+                                HeightRequest="40"
+                               WidthRequest="200"
+                                HorizontalOptions="EndAndExpand"
+                               HorizontalTextAlignment="Center"
+                                />
+
+                            </StackLayout>
+                        <StackLayout
+                            Orientation="Horizontal">
+                            <Button
+                            Clicked="btn_rm_schedule"
+                            HorizontalOptions="EndAndExpand"
+                            ImageSource="remove_user.png"
+                            BackgroundColor="#B0E0E6"
+                            BorderColor="#B0E0E6"
+                            BorderWidth="1"
+                            CornerRadius="30"
+                            TextColor="White"
+                            WidthRequest="60"
+                            HeightRequest="60"/>
+
+                        </StackLayout>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+            </DataTemplate>
+           </ContentPage.Resources>
+        <ContentPage.Content>
+        <ScrollView>
+            <StackLayout
+            Orientation="Vertical">
+            <StackLayout
+                Orientation="Horizontal"
+                Margin="15">
+                <Label
+            Text="Schedule History"
+            FontAttributes="Bold"
+            TextColor="#4682B4"
+            FontSize="35"
+            HeightRequest="45"
+            VerticalOptions="Start"/>
+                <Button
+                Clicked="btn_retrieve_db"
+                HorizontalOptions="EndAndExpand"
+                ImageSource="download_db.png"
+                BackgroundColor="#B0E0E6"
+                BorderColor="#B0E0E6"
+                BorderWidth="1"
+                CornerRadius="30"
+                TextColor="White"
+                WidthRequest="60"
+                HeightRequest="60"/>
+            </StackLayout>
+            <ActivityIndicator
+            x:Name="spinner"
+            IsRunning="false" 
+            Color="#4682B4"
+            HeightRequest="50"
+            WidthRequest="50"
+            IsVisible="false"/>
+                <StackLayout>
+                     <IndicatorView
+                        Margin="10,10,10,10"
+                        x:Name="indicatorView"
+                        HorizontalOptions="Center"
+                        SelectedIndicatorColor="#4682B4"
+                        IndicatorColor="LightGray"
+                        IndicatorSize="8"
+                        Count="{Binding NumberOfUsers}"
+                        IndicatorsShape="Circle"
+                        ItemsSource="{Binding AllUsers}"
+                            
+                            />
+                <CarouselView
+                x:Name="carousel"
+                IndicatorView="{x:Reference indicatorView}"
+                ItemsSource="{Binding AllSchedules}"
+                ItemTemplate="{StaticResource ScheduleTemplate}"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand">
+                </CarouselView>                
+                </StackLayout>
+        </StackLayout>
+        </ScrollView>
+        
+    </ContentPage.Content>
+</ContentPage>
+

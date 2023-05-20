@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="UsersFlow.View.ScheduleView">
+    <ContentPage.Content>
+        <ScrollView>
+             <StackLayout
+            Spacing="10"
+            VerticalOptions="Start"
+            HorizontalOptions="FillAndExpand"
+            Padding="20">
+                <StackLayout
+                Orientation="Horizontal">
+                <Label
+                Text="Schedule"
+                FontSize="50"
+                TextColor="#4682B4"
+                HorizontalOptions="Center"
+                FontAttributes="Bold"
+                Margin="20,20,20,20"/>
+                <Image
+                Source="calendario.png"
+                    HeightRequest="60"
+                    WidthRequest="60"
+                    Margin="10,10,10,10"
+                 HorizontalOptions="EndAndExpand"/>
+                </StackLayout>
+                 <Frame BackgroundColor="White"
+               BorderColor="#4682B4"
+               Padding="10,5"
+                        Margin="10"
+               CornerRadius="5"
+               HorizontalOptions="FillAndExpand"
+               VerticalOptions="Start"
+               HasShadow="False">
+            <Label
+                Text="Registration"
+                FontSize="30"
+                TextColor="#4682B4"
+                HorizontalOptions="Center"
+                FontAttributes="Bold"
+                Margin="20,20,20,20"/>
+                     </Frame>
+                 <StackLayout
+                     Orientation="Horizontal"
+                     Margin="10"
+                     >
+                     <Label
+                         HorizontalOptions="Start"
+                 Text="Date: "
+                 TextColor="Black"
+                  FontSize="20"
+                  FontAttributes="Bold"
+                  VerticalOptions="Center"/>
+            <DatePicker
+                Date="{Binding SelectedDate}"
+                Format="dd-MM-yyyy"
+                HeightRequest="50"
+                BackgroundColor="#8FAADC"
+               HorizontalOptions="EndAndExpand"
+               WidthRequest="250"
+                TextColor="White"
+                />
+                 </StackLayout>
+                 
+            <Entry
+                x:Name="input_entry"
+                Placeholder="Entry hour"
+                ClearButtonVisibility="WhileEditing"
+                TextTransform="Lowercase"
+                HorizontalTextAlignment="Center"
+                PlaceholderColor="#B6B7B7"
+                TextColor="Black"
+                Margin="10,10,10,10"
+                HeightRequest="50"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Start"/>
+                 <Entry
+                x:Name="input_leave"
+                Placeholder="Leave hour"
+                ClearButtonVisibility="WhileEditing"
+                TextTransform="Lowercase"
+                HorizontalTextAlignment="Center"
+                PlaceholderColor="#B6B7B7"
+                TextColor="Black"
+                Margin="10,10,10,10"
+                HeightRequest="50"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Start"/>
+                 <Label
+                 Text="{Binding Message}"
+                 TextColor="#4682B4"/>
+                 <ActivityIndicator
+                    x:Name="spinner"
+                    IsRunning="{Binding IsBusy}" 
+                    Color="#4682B4"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    IsVisible="false"/>
+                 <Button
+                Clicked="Button_Clicked"
+                Text="SAVE"
+                VerticalOptions="Center"
+                FontAttributes="Bold"
+                TextColor="White"
+                BackgroundColor="#4682B4"
+                BorderWidth="1.5"
+                CornerRadius="20"
+                BorderColor="#4682B4"
+                Margin="20,20,20,20"
+                HeightRequest="50"/>
+                  <Button
+                Clicked="Button_Clicked_Schedule"
+                Text="SCHEDULE HISTORY"
+                VerticalOptions="Center"
+                FontAttributes="Bold"
+                TextColor="White"
+                BackgroundColor="#8FAADC"
+                BorderWidth="1.5"
+                CornerRadius="20"
+                BorderColor="#8FAADC"
+                Margin="20,20,20,20"
+                HeightRequest="50"/>
+                 </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
+

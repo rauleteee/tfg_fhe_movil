@@ -1,0 +1,60 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2545" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.5" />
+    <PackageReference Include="Plugin.BLE" Version="2.1.3" />
+    <PackageReference Include="Microsoft.Research.SEALNet" Version="4.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.5" />
+    <PackageReference Include="Konscious.Security.Cryptography.Argon2" Version="1.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Plugin.FirebasePushNotification" Version="3.4.35" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="View\" />
+    <Compile Remove="ModelView\" />
+    <Compile Remove="Model\" />
+    <Compile Remove="View\NewUser.xaml" />
+    <Compile Remove="View\ManageUser.xaml" />
+    <Compile Remove="Microsoft.Research.SEALNet" />
+    <Compile Remove="View\Home.xaml" />
+    <Compile Remove="View\BluetoothView.xaml" />
+    <Compile Remove="Plugin.BLE" />
+    <Compile Remove="Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="View\" />
+    <Folder Include="ModelView\" />
+    <Folder Include="Model\" />
+    <Folder Include="Services\" />
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="View\NewUser.xaml.cs">
+      <DependentUpon>NewUser.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="View\ManageUser.xaml.cs">
+      <DependentUpon>ManageUser.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Interfaces\" />
+    <None Remove="MongoDB.Driver" />
+    <None Remove="Newtonsoft.Json" />
+    <None Remove="Xamarin.Forms.PancakeView" />
+    <None Remove="Xamarin.CommunityToolkit" />
+  </ItemGroup>
+</Project>

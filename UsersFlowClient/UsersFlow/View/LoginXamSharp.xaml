@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="UsersFlow.View.LoginXamSharp"
+     >
+       <ContentPage.Content>
+        <ScrollView>
+            <StackLayout
+             VerticalOptions="Start"
+            HorizontalOptions="FillAndExpand"
+            Padding="40"
+             >
+                <Image
+                Source="login.png"
+                WidthRequest="130"
+                HeightRequest="130"
+                Margin="0,10,0,10"
+                />
+
+           <Label
+               Text="Login UsersFlow"
+               FontSize="50"
+               TextColor="#4682B4"
+               HorizontalOptions="Center"
+               FontAttributes="Bold"
+               Margin="20,20,20,20"/>
+
+                <Grid>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="*" />
+        <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+                <Entry
+                Placeholder="Username..."
+                x:Name="input_username"
+                TextTransform="Lowercase"
+                HorizontalTextAlignment="Center"
+                PlaceholderColor="#B6B7B7"
+                ClearButtonVisibility="WhileEditing"
+                TextColor="Black"
+                Margin="10,10,10,10"
+                HeightRequest="50"
+                  Grid.Row="0"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Start"
+                />
+
+            
+            <Entry
+                Placeholder="Password"
+                IsPassword="True"
+                HorizontalTextAlignment="Center"
+                x:Name="input_password"
+                TextTransform="Lowercase"
+                PlaceholderColor="#B6B7B7"
+                ClearButtonVisibility="WhileEditing"
+                TextColor="Black"
+                Margin="10,10,10,10"
+                HeightRequest="50"
+                Grid.Row="1"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="Start"
+                />
+            </Grid>    
+
+            
+            <Label
+                 Text="{Binding Message}"
+                 TextColor="#4682B4"/>
+            <ActivityIndicator
+                    x:Name="spinner"
+                    IsRunning="{Binding IsBusy}" 
+                    Color="#4682B4"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    IsVisible="false"/>
+            <Button
+                VerticalOptions="Center"
+                FontAttributes="Bold"
+                Text="SIGN IN"
+                TextColor="White"
+                BackgroundColor="#4682B4"
+                BorderWidth="1.5"
+                CornerRadius="20"
+                BorderColor="#4682B4"
+                Clicked="Button_ClickedAsync"
+                Margin="20,20,20,20"
+                HeightRequest="50"
+                />
+            <Button
+                Clicked="btn_add_user"
+                HorizontalOptions="EndAndExpand"
+                ImageSource="newUser.png"
+                BackgroundColor="#B0E0E6"
+                BorderColor="#B0E0E6"
+                BorderWidth="1"
+                CornerRadius="30"
+                TextColor="White"
+                WidthRequest="60"
+                HeightRequest="60"/>
+
+        </StackLayout>
+
+        </ScrollView>
+        
+    </ContentPage.Content>
+</ContentPage>
+

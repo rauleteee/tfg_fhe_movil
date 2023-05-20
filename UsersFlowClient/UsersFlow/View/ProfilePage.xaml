@@ -1,0 +1,281 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="UsersFlow.View.ProfilePage"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+
+    mc:Ignorable="d" BackgroundColor="#F6F6F6">
+    <NavigationPage.TitleView>
+        <StackLayout
+            Orientation="Horizontal"
+            Padding="10"
+            >
+            <Label
+                Text="My Profile"
+                FontAttributes="Bold"
+                
+                />
+            <Image
+                Source="user.png"
+                HorizontalOptions="EndAndExpand"/>
+
+        </StackLayout>
+
+    </NavigationPage.TitleView>
+
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <StackLayout
+                    Orientation="Horizontal"
+                    >
+                    <Frame
+                    
+                    CornerRadius="50"
+                    WidthRequest="100"
+                    HeightRequest="100"
+                    HasShadow="True"
+                    BorderColor="#4682B4"
+                    Margin="20,20,20,20"
+                        >
+                        <Image
+                    Source="programmer.png"
+                    Aspect="AspectFit"/>
+                    </Frame>
+                    <StackLayout
+                    Orientation="Vertical"
+                    VerticalOptions="Center">
+                        <Label
+                    Text="Welcome,"
+                    FontAttributes="Bold"
+                    TextColor="Black"
+                    FontSize="30"
+                    VerticalOptions="Center"/>
+                        <Label
+                    Text="{Binding Name}"
+                    x:Name="_username"
+                    FontAttributes="Bold"
+                    TextColor="#4682B4"
+                    FontSize="50"
+                    HeightRequest="45"
+                    VerticalOptions="Center"/>
+                    
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout
+                    Orientation="Vertical">
+                    
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <ScrollView
+                            Orientation="Horizontal">
+                            <StackLayout
+                                Orientation="Horizontal">
+                            <Frame
+                                CornerRadius="20"
+                                BackgroundColor="White"
+                                Margin="10,10,10,10"
+                                HasShadow="True"
+                                Padding="20"
+                                VerticalOptions="StartAndExpand"
+                                BorderColor="#4682B4"
+                               >
+                                <StackLayout
+                                    Orientation="Vertical"
+                                    
+                                    >
+                                    <StackLayout
+                                        Orientation="Horizontal">
+                                    <Label
+                                    Text="User Information"
+                                    FontAttributes="Bold"
+                                    FontSize="20"
+                                    HorizontalOptions="CenterAndExpand"
+                                    VerticalOptions="Center"
+                                    TextColor="Black"/>
+                                    <Button
+                                    Clicked="btn_retrive_noCiph"
+                                    HorizontalOptions="End"
+                                    ImageSource="decryption.png"
+                                    BackgroundColor="#B0E0E6"
+                                    BorderColor="#B0E0E6"
+                                    BorderWidth="1"
+                                    CornerRadius="30"
+                                    TextColor="White"
+                                    WidthRequest="60"
+                                    HeightRequest="60"/>
+                                    </StackLayout>
+                                    
+                                     <Label Text="Username: "
+                                            FontAttributes="Bold"
+                                            FontSize="30"
+                                            TextColor="#4682B4"
+                                            />
+                                    <Label x:Name="username"
+                                            />
+                                    <Label Text="Birth: "
+                                            FontSize="30"
+                                            FontAttributes="Bold"
+                                            TextColor="#4682B4"
+                                            />
+                                    <Label x:Name="Birth"
+                                            />
+                                    <Label Text="DNI: "
+                                            FontSize="30"
+                                            TextColor="#4682B4"
+                                            FontAttributes="Bold"
+                                            />
+                                    <Label x:Name="DNI"
+                                            />
+                                    <Label Text="Social Security Number: "
+                                            FontSize="30"
+                                            TextColor="#4682B4"
+                                            FontAttributes="Bold"
+                                            />
+                                    <Label x:Name="SegSocialNumber"
+                                            />
+                                    <Label Text="IBAN: "
+                                            FontSize="30"
+                                            TextColor="#4682B4"
+                                            FontAttributes="Bold"
+                                            />
+                                    <Label x:Name="IBAN"
+                                            />
+                                    <Label Text="Privilege: "
+                                            FontSize="30"
+                                            TextColor="#4682B4"
+                                            FontAttributes="Bold"
+                                            />
+                                    <Label x:Name="Privilege"
+                                            />
+                                    <ActivityIndicator
+                                    x:Name="spinner"
+                                    IsRunning="false" 
+                                    Color="#4682B4"
+                                    HeightRequest="50"
+                                    WidthRequest="50"
+                                    IsVisible="false"/>
+                                </StackLayout>
+                            </Frame>
+                            <Frame
+                                CornerRadius="20"
+                                BackgroundColor="#B0E0E6"
+                                Margin="20"
+                                HasShadow="True"
+                                VerticalOptions="FillAndExpand">
+                                <StackLayout>
+                                    <StackLayout
+                                        Orientation="Horizontal">
+                                    <Label
+                                    Text="Ciphered User Information"
+                                    FontAttributes="Bold"
+                                    TextColor="Black"
+                                    HorizontalOptions="CenterAndExpand"
+                                    VerticalOptions="Center"
+                                    FontSize="20"
+                                    Margin="20,20,20,20"/>
+                                    <Image
+                                    Source="protected.png"/>
+                                    </StackLayout>
+                                    <Label Text="Ciph(DNI): "
+                                    FontSize="30"
+                                    TextColor="White"
+                                    FontAttributes="Bold"
+                                    />
+                                    <Label x:Name="ciphDNI"
+                                    />
+                                    <Label Text="Ciph(Social&#x0a;Security Number): "
+                                    FontSize="30"
+                                    TextColor="White"
+                                    FontAttributes="Bold"
+                                    />
+                                    <Label x:Name="ciphSeg"
+                                    />
+                                    <Label Text="Ciph(IBAN): "
+                                    FontSize="30"
+                                    TextColor="White"
+                                    FontAttributes="Bold"
+                                    />
+                                    <Label x:Name="ciphIban"
+                                    />
+
+                                   
+                                </StackLayout>
+                            </Frame>
+                              
+                            </StackLayout>
+
+                        </ScrollView>
+                    </Grid>
+                    <Button
+            Clicked="save_schedule_btn"
+            Text="Schedule"
+            VerticalOptions="Center"
+            FontAttributes="Bold"
+            TextColor="White"
+            BackgroundColor="#4682B4"
+            BorderWidth="1.5"
+            CornerRadius="20"
+            BorderColor="#4682B4"
+            Margin="20,20,20,20"
+            HeightRequest="50"/>   
+                </StackLayout>
+                <StackLayout
+                    Orientation="Horizontal"
+                    HorizontalOptions="End"
+                    Margin="20">
+                    
+                    <Button 
+                    Clicked="bt_button"
+                    BorderWidth="1"
+                    CornerRadius="30"
+                    TextColor="White"
+                    WidthRequest="60"
+                    HeightRequest="60"
+                    BackgroundColor="#B0E0E6"
+                    BorderColor="#B0E0E6"
+                    ImageSource="bluetooth.png"
+                    x:Name="btButton"/>
+                   
+                    
+                     <Button
+                    Clicked="btn_logout"
+                    VerticalOptions="End"
+                    HorizontalOptions="End"
+                    BackgroundColor="#B0E0E6"
+                    BorderColor="#B0E0E6"
+                    BorderWidth="1"
+                    CornerRadius="30"
+                    TextColor="White"
+                    WidthRequest="60"
+                    HeightRequest="60"
+                    FontAttributes="Bold"
+                    ImageSource="logout.png"/>
+                    <Button
+                    Clicked="btn_remove_user"
+                    HorizontalOptions="End"
+                    BackgroundColor="#FFBCBC"
+                    BorderColor="#FFBCBC"
+                    BorderWidth="1"
+                    CornerRadius="30"
+                    TextColor="White"
+                    WidthRequest="60"
+                    HeightRequest="60"
+                    FontAttributes="Bold"
+                    ImageSource="remove_user.png"/>
+                </StackLayout>
+                
+            </StackLayout>
+
+        </ScrollView>
+
+    </ContentPage.Content>
+</ContentPage>
+
