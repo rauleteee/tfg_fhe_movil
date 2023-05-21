@@ -202,7 +202,7 @@ public class Server
 	static async Task<string> GetUsersToken(string username)
 	{
 		/*****************************************
-             * PUT (UPDATE) request the user's info 
+             * GET user's token
              *****************************************/
             try
             {
