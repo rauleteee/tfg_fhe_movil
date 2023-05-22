@@ -206,7 +206,8 @@ public class Server
              *****************************************/
             try
             {
-                Uri requestUri = new Uri("http://82.223.103.136:5025/api/user/token/" + username);
+				string ip = "...";
+                Uri requestUri = new Uri("http://" + ip +":5025/api/user/token/" + username);
                 var client = new HttpClient();
                 client.DefaultRequestHeaders
                       .Accept
