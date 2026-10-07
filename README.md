@@ -29,7 +29,7 @@ Personal data stored in company databases is one of the most valuable — and mo
 
 - 🧮 **Compute on encrypted data.** The server performs mathematical operations (e.g. worked-hours calculation) *without ever decrypting* the employees' data — it never sees the plaintext.
 - 🛡️ **Post-quantum security.** FHE schemes are built on lattice cryptography, which is believed to resist quantum attacks.
-- 👥 **A multi-user contribution.** FHE is naturally single-key. This project adds a **custom, authenticated key-exchange protocol over an SSL/TLS tunnel** so that an HR Manager can securely hand an employee their own private key — a practical answer to one of FHE's well-known limitations.
+- 👥 **A multi-user contribution.** FHE is naturally single-key. This project adds a **custom key-exchange protocol over an SSL/TLS tunnel** so that an HR Manager can securely hand an employee their own private key — a practical answer to one of FHE's well-known limitations.
 
 > All sensitive information leaving a mobile device is encrypted at all times and is decrypted **only at the endpoints**: the employees' phones and the HR Manager's phone.
 
@@ -43,7 +43,7 @@ Personal data stored in company databases is one of the most valuable — and mo
 | 🔑 | **Role-based access** | `Manager` (HR) vs. `Developer` (employee) roles; unauthorized actions are denied |
 | 🧾 | **FHE-encrypted profiles** | IBAN, national ID (DNI) and Social Security Number are stored encrypted (`cipherIban`, `cipherDNI`, `cipherSegSocial`) |
 | ⏱️ | **Encrypted time tracking** | Entry/leave hours are encrypted on the phone; the server computes the **daily balance with a homomorphic subtraction** and stores the result encrypted |
-| 🤝 | **Secure key sharing** | Custom protocol over a mutually-authenticated SSL/TLS tunnel with X.509 certificates |
+| 🤝 | **Secure key sharing** | Custom protocol over an SSL/TLS 1.2 tunnel (self-signed X.509 certificates) |
 | 🔔 | **Real-time authorization** | The Manager approves each key request through **Firebase Cloud Messaging (FCM)** push notifications |
 | 🗄️ | **Hardware-backed key storage** | Keys live in the iOS **Keychain** / Android **Keystore** via Xamarin `SecureStorage` — and are wiped on logout |
 | 🔒 | **Hardened credentials** | Passwords are salted and hashed with **Argon2** |
@@ -53,20 +53,20 @@ Personal data stored in company databases is one of the most valuable — and mo
 
 ## 🏗️ Architecture
 
-Besides the mobile clients, the system has three independent modules (deployed on an IONOS VM, Ubuntu 20.04): the **REST API**, the only component that talks to MySQL; the **homomorphic server**, which only computes the encrypted hours balance with the SEAL `Evaluator` and never sees plaintext; and the **key exchange server**.
+Besides the mobile clients, the system has two independent server processes (deployed on an IONOS VM, Ubuntu 20.04): the **REST API**, the only component that talks to MySQL, and the **key exchange server**. The thesis calls the SEAL `Evaluator` that computes the encrypted hours balance the "homomorphic server"; in the code it runs inside the API process (`UserController.cs`, `addNewSchedule`) and never sees plaintext.
 
 <div align="center">
 
 ![System architecture](docs/img/architecture.svg)
 
-*Global architecture: phones talk HTTP to the REST API (database access) and TLS 1.2 to the key exchange server. The API delegates the encrypted hours calculation to the homomorphic evaluator. In this prototype the evaluator is implemented inside the API process (`UserController.cs`, `addNewSchedule`). FCM is used only by the key exchange server.*
+*Global architecture: phones talk HTTP to the REST API (database access and homomorphic evaluator) and TLS 1.2 to the key exchange server, which is the only component using FCM and which asks the API for device tokens.*
 
 </div>
 
 | Module | Folder | Port | Responsibility |
 |---|---|---|---|
 | 📱 **UsersFlow client** | [`UsersFlowClient/`](UsersFlowClient) | – | Xamarin.Forms mobile app: login, profile, schedule registration, user management. Encrypts/decrypts with the user's private key. |
-| 🌐 **REST API** | [`ApiRestUsersFlow/`](ApiRestUsersFlow) | `5025` (HTTP) | .NET Web API connected to MySQL. Stores and serves encrypted data (CRUD) and delegates the encrypted hours calculation to the homomorphic server. |
+| 🌐 **REST API** | [`ApiRestUsersFlow/`](ApiRestUsersFlow) | `5025` (HTTP) | .NET Web API connected to MySQL. Stores and serves encrypted data (CRUD) and, in `addNewSchedule`, runs the SEAL **homomorphic evaluator** (`leave − entry`) on ciphertexts. |
 | 🔐 **Key exchange server** | [`KeyExchangeSSL/`](KeyExchangeSSL) | `10001` (TCP + SSL/TLS) | Multi-threaded TCP server implementing the custom key-exchange protocol and sending FCM notifications. |
 
 ### Design decisions
@@ -118,27 +118,31 @@ sequenceDiagram
     participant F as 🔔 Firebase FCM
     participant M as 👔 HR Manager
 
-    E->>S: TLS handshake (mutual X.509 authentication)
-    E->>S: SKReq — "I need my private key"
-    S->>E: Client? — E replies with the username
-    S->>F: Look up Manager token (DB) & push notification
-    F-->>M: "Secret key retrieval: <username>"
-    M->>S: TLS handshake + authorization
-    M->>S: SECRET KEY (username) over the encrypted tunnel
-    S->>F: Push "Your secret key is ready"
-    F-->>E: Notification
-    E->>S: New TLS handshake
-    S->>E: SECRET KEY (username)
+    E->>S: TLS 1.2 handshake · HelloServer / HelloClient
+    E->>S: SKReq
+    S->>E: Client?
+    E->>S: username$
+    S->>S: GET /api/user/token/{manager, user} (REST API)
+    S->>F: push "Secret key retrieval"
+    F-->>M: notification (Manager accepts the alert)
+    S->>E: "Received username correctly" · tunnel closed
+    M->>S: new TLS · "Requested secret key!"
+    S->>M: "Tell me!"
+    M->>S: SECRET KEY (over the TLS tunnel)
+    S->>F: push "key retrieved"
+    F-->>E: notification
+    E->>S: new TLS · "TellMeTheSecret"
+    S->>E: SECRET KEY
     Note over E: Key stored in Keychain/Keystore,<br/>erased on logout
 ```
 
 **Security properties**
 
-- ✅ **Mutual authentication** with self-signed X.509 certificates stored in both Trust Stores — mitigates *Man-in-the-Middle* attacks.
-- ✅ **Manager consent** for every key release (a rejected request closes the tunnel).
+- ✅ **TLS 1.2 tunnel** with a self-signed X.509 server certificate. The design goal was mutual authentication against *Man-in-the-Middle* (see [limitations](#%EF%B8%8F-limitations)).
+- ✅ **Manager consent** for every key release: the Manager must accept an alert on their phone, otherwise no key is sent.
 - ✅ **The key only travels inside the encrypted tunnel** — the server acts as a relay between Manager and employee.
 - ✅ **Key volatility:** keys are removed from the device on `logout`, so a shared phone can't leak another user's key.
-- ✅ Concurrent clients are served on separate threads.
+- ✅ Each client connection is served on its own thread (see limitations for shared state).
 
 ---
 
@@ -319,13 +323,15 @@ Each module contains its own `README.md` with additional run instructions. Make 
 - **Key exchange:** multi-client connections, certificate rejection tests, step-by-step logging of every protocol message and a byte-level comparison of the private key before/after transit.
 - **Security review (CIA triad):**
   - **Confidentiality** — login + role-based authorization ✔️
-  - **Integrity** — X.509-authenticated tunnel, Argon2-hashed passwords ✔️
+  - **Integrity** — TLS tunnel, Argon2-hashed passwords ✔️
   - **Availability** — *not fully implemented* (would require a firewall / DoS protection) ⚠️
 
 ---
 
 ## ⚠️ Limitations
 
+- 🔓 **Certificate validation is not enforced in this prototype.** The key server calls `AuthenticateAsServer(cert, clientCertificateRequired: false, …)` and `ValidateClientCertificate` is never wired, and the mobile client's `ValidateServerCertificate` always returns `true`. Real mutual authentication needs both enabled.
+- 🧵 **Shared state in the key server.** `requestedSK`, `requestedClient` and `requestedClientToken` are instance fields shared by all client threads, so simultaneous exchanges can overwrite each other.
 - 🐢 **Latency & payload size.** FHE ciphertexts are big; a user record download is around **150–200 MB** for the encrypted fields. Parallel tasks mitigate it, but UX is far from perfect.
 - 🧩 **Library interoperability.** The first prototype used Node.js + `node-seal`, but ciphertext headers/encryption parameters were incompatible with Microsoft SEAL for C#. Client and server must use **the same language/library**.
 - 🐧 **SEAL on Ubuntu 20.04 + .NET** remained an open issue during development.
