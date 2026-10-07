@@ -57,7 +57,7 @@ The system is made of **three modules** deployed in a client–server architectu
 
 <div align="center">
 
-![System architecture](docs/img/system-architecture.png)
+![System architecture](docs/img/architecture.svg)
 
 *Global architecture: the REST API + MySQL database and the SSL key-exchange service run on a remote "homomorphic server"; employees and the HR Manager connect from their phones.*
 
@@ -68,14 +68,6 @@ The system is made of **three modules** deployed in a client–server architectu
 | 📱 **UsersFlow client** | [`UsersFlowClient/`](UsersFlowClient) | – | Xamarin.Forms mobile app: login, profile, schedule registration, user management. Encrypts/decrypts with the user's private key. |
 | 🌐 **REST API** | [`ApiRestUsersFlow/`](ApiRestUsersFlow) | `5025` (HTTP) | .NET Web API connected to MySQL. Stores encrypted data and runs the **homomorphic evaluator** (Microsoft SEAL) on ciphertexts. |
 | 🔐 **Key exchange server** | [`KeyExchangeSSL/`](KeyExchangeSSL) | `10001` (TCP + SSL/TLS) | Multi-threaded TCP server implementing the custom key-exchange protocol and sending FCM notifications. |
-
-<div align="center">
-
-![REST API topology](docs/img/rest-api-topology.png)
-
-*REST API topology: the client talks HTTP to the API, which is the only component that touches the database.*
-
-</div>
 
 ### Design decisions
 
@@ -89,26 +81,18 @@ The system is made of **three modules** deployed in a client–server architectu
 
 ## 📲 The App
 
-<div align="center">
-
-<img src="docs/img/app-screens.png" alt="UsersFlow app screens" width="620">
-
-*Login · Profile · Schedule registration · Schedule history · User management · Sign-up (all data shown is synthetic demo data).*
-
-</div>
-
 1. **Login** — session persistence; the role (`Manager` / `Developer`) defines what each user can do. The password hash is verified on-device with Argon2.
 2. **Profile** — two swipeable cards: the **decrypted** data and the raw **encrypted** data as stored in the database. A Manager already holds every employee's key; an employee must first request theirs.
 3. **Schedule registration** — the employee enters date, entry hour and leave hour. They are encrypted on the phone and the server returns the encrypted *worked hours* (`leave − entry`) computed homomorphically.
 4. **User management** *(Manager only)* — download/decrypt all employee records, update, delete or create users (a fresh private key is generated and stored in the Manager's Secure Storage).
 
-### Type conversions required by SEAL
+### Encrypted schedule flow
 
-Working with FHE from a high-level language is subtle, so entries go through a series of experimentally-validated conversions before and after encryption:
+Hours are encrypted on the phone; the API computes the balance homomorphically and stores only ciphertexts:
 
 <div align="center">
 
-![Encryption / decryption flow](docs/img/encrypt-decrypt-flow.png)
+![Schedule balance flow](docs/img/schedule-balance.svg)
 
 </div>
 
@@ -120,7 +104,7 @@ FHE ciphertexts can only be decrypted with the key that produced them. In UsersF
 
 <div align="center">
 
-![Key exchange protocol](docs/img/key-exchange-protocol.png)
+![Key exchange protocol](docs/img/key-exchange.svg)
 
 *Custom protocol for private-key exchange over SSL.*
 
@@ -156,32 +140,12 @@ sequenceDiagram
 - ✅ **Key volatility:** keys are removed from the device on `logout`, so a shared phone can't leak another user's key.
 - ✅ Concurrent clients are served on separate threads.
 
-<details>
-<summary><b>Trust Store &amp; SSL handshake diagrams</b></summary>
-
-<div align="center">
-
-![SSL handshake](docs/img/ssl-handshake.png)
-
-![Trust store](docs/img/trust-store.png)
-
-</div>
-
-</details>
-
 ---
 
 ## 🧠 Cryptography Background
 
 <details>
 <summary><b>Symmetric vs. asymmetric encryption</b></summary>
-
-<div align="center">
-
-![Symmetric encryption](docs/img/symmetric-encryption.png)
-![Asymmetric encryption](docs/img/asymmetric-encryption.png)
-
-</div>
 
 Symmetric cryptography (AES, ChaCha20, Twofish…) is faster and needs less computation, which is why UsersFlow uses it. Asymmetric cryptography (RSA, Diffie-Hellman, DSA…) avoids sharing a private key but is significantly slower.
 
@@ -228,16 +192,6 @@ BGV/BFV security relies on **Ring-Learning-With-Errors (RLWE)**: noise is added 
 
 <details>
 <summary><b>Mobile platform internals</b></summary>
-
-<div align="center">
-
-![Xamarin architecture](docs/img/xamarin-architecture.png)
-
-![iOS key hierarchy](docs/img/ios-key-hierarchy.png)
-
-![FCM overview](docs/img/fcm-overview.png)
-
-</div>
 
 - **Xamarin** shares ~90 % of the C# code across iOS and Android; native bits live in `Project.iOS` / `Project.Android`.
 - Keys are kept in the **Keychain** (iOS) / **Keystore** (Android), protected by the secure co-processor, AES-GCM and Face ID / Touch ID.
@@ -286,19 +240,6 @@ Base route: `/api/user` (HTTP, port `5025`). Main operations described in the th
 | `POST` | `/api/user/schedule` | Store an encrypted time entry; the server computes the encrypted **balance** homomorphically |
 | `GET` | `/api/user/schedule/getId/{id}` | Retrieve encrypted schedule entries |
 | `DELETE` | `/api/user/schedule/{id}` | Delete a schedule entry |
-
-<details>
-<summary><b>Example: encrypted schedule inspected with Postman</b></summary>
-
-<div align="center">
-
-![Postman response](docs/img/postman-encrypted-schedule.png)
-
-*The server only ever handles opaque Base64 ciphertexts (`entry_hour`, `leave_hour`, `balance`).*
-
-</div>
-
-</details>
 
 All queries are **parameterized** (`command.Parameters`) to prevent SQL injection.
 
@@ -373,12 +314,6 @@ Each module contains its own `README.md` with additional run instructions. Make 
 
 - **Front-end:** Xcode iOS simulator, an iPhone 12 Pro Max and an iPhone X running Manager and employee roles in parallel; XAML *hot-reload*.
 - **FHE demos:** small Xamarin apps (encrypted integer storage, a *homomorphic calculator* with the SEAL evaluator, and encrypted-zero experiments) to validate that decrypted results are correct.
-
-<div align="center">
-
-![FHE demo apps](docs/img/fhe-demo-apps.png)
-
-</div>
 
 - **API:** Postman collections + XAMPP/phpMyAdmin to verify the persisted ciphertexts byte-for-byte (cipher parameters in the app and in the DB were compared to guarantee integrity).
 - **Key exchange:** multi-client connections, certificate rejection tests, step-by-step logging of every protocol message and a byte-level comparison of the private key before/after transit.

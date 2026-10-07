@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" font-family="Helvetica,Arial,sans-serif">
+<defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8z" fill="#334155"/></marker>
+<style>
+.h{font-size:14px;font-weight:700;fill:#0f172a;text-anchor:middle}
+.m{font-size:12px;fill:#1e293b;text-anchor:middle}
+.lf{stroke:#94a3b8;stroke-dasharray:4 4}
+.ar{stroke:#334155;stroke-width:2;marker-end:url(#a)}
+.st{opacity:0;animation:show 16s infinite}
+@keyframes show{0%{opacity:0}3%,92%{opacity:1}97%,100%{opacity:0}}
+.k{fill:#f59e0b;opacity:0}
+</style></defs>
+<rect width="900" height="520" fill="#f8fafc"/>
+<g class="h"><text x="120" y="30">Employee</text><text x="360" y="30">SSL Key Server</text><text x="600" y="30">Firebase FCM</text><text x="810" y="30">HR Manager</text></g>
+<g class="lf"><line x1="120" y1="40" x2="120" y2="500"/><line x1="360" y1="40" x2="360" y2="500"/><line x1="600" y1="40" x2="600" y2="500"/><line x1="810" y1="40" x2="810" y2="500"/></g>
+<g class="st" style="animation-delay:0s"><line class="ar" x1="120" y1="70" x2="360" y2="70"/><text class="m" x="240" y="62">1 TLS handshake (mutual X.509)</text></g>
+<g class="st" style="animation-delay:1s"><line class="ar" x1="120" y1="110" x2="360" y2="110"/><text class="m" x="240" y="102">2 SKReq (needs private key)</text></g>
+<g class="st" style="animation-delay:2s"><line class="ar" x1="360" y1="150" x2="120" y2="150"/><text class="m" x="240" y="142">3 "Client?"</text></g>
+<g class="st" style="animation-delay:3s"><line class="ar" x1="120" y1="190" x2="360" y2="190"/><text class="m" x="240" y="182">4 username</text></g>
+<g class="st" style="animation-delay:4s"><line class="ar" x1="360" y1="230" x2="600" y2="230"/><text class="m" x="480" y="222">5 push request</text></g>
+<g class="st" style="animation-delay:5s"><line class="ar" x1="600" y1="270" x2="810" y2="270"/><text class="m" x="705" y="262">6 "Secret key retrieval"</text></g>
+<g class="st" style="animation-delay:6s"><line class="ar" x1="810" y1="310" x2="360" y2="310"/><text class="m" x="585" y="302">7 TLS + SECRET KEY (username)</text></g>
+<g class="st" style="animation-delay:7s"><line class="ar" x1="360" y1="350" x2="600" y2="350"/><text class="m" x="480" y="342">8 "key ready"</text></g>
+<g class="st" style="animation-delay:8s"><line class="ar" x1="600" y1="390" x2="120" y2="390"/><text class="m" x="360" y="382">9 notification to employee</text></g>
+<g class="st" style="animation-delay:9s"><line class="ar" x1="120" y1="430" x2="360" y2="430"/><text class="m" x="240" y="422">10 new TLS handshake</text></g>
+<g class="st" style="animation-delay:10s"><line class="ar" x1="360" y1="470" x2="120" y2="470" stroke="#d97706"/><text class="m" x="240" y="462">11 SECRET KEY → Keychain/Keystore</text></g>
+</svg>
