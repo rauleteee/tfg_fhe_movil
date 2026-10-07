@@ -1,15 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 220" font-family="Helvetica,Arial,sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 300" font-family="Helvetica,Arial,sans-serif">
 <defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8z" fill="#334155"/></marker>
 <style>.b{fill:#fff;stroke:#334155;stroke-width:2}.t{font-size:13px;font-weight:700;text-anchor:middle;fill:#0f172a}.s{font-size:11px;text-anchor:middle;fill:#475569}
-.p{fill:#2563eb;animation:mv 6s linear infinite}
-@keyframes mv{0%{transform:translateX(0);opacity:0}5%{opacity:1}95%{opacity:1}100%{transform:translateX(640px);opacity:0}}
-.ar{stroke:#334155;stroke-width:2;marker-end:url(#a)}</style></defs>
-<rect width="900" height="220" fill="#f8fafc"/>
-<rect class="b" x="20" y="70" width="150" height="80" rx="8"/><text class="t" x="95" y="105">Phone</text><text class="s" x="95" y="125">entry / leave hour</text>
-<rect class="b" x="250" y="70" width="150" height="80" rx="8"/><text class="t" x="325" y="105">SEAL encrypt</text><text class="s" x="325" y="125">private key (SecureStorage)</text>
-<rect class="b" x="480" y="70" width="170" height="80" rx="8"/><text class="t" x="565" y="105">REST API</text><text class="s" x="565" y="125">Evaluator: leave − entry</text>
-<rect class="b" x="730" y="70" width="150" height="80" rx="8"/><text class="t" x="805" y="105">MySQL</text><text class="s" x="805" y="125">entry · leave · balance</text>
-<line class="ar" x1="170" y1="110" x2="250" y2="110"/><line class="ar" x1="400" y1="110" x2="480" y2="110"/><line class="ar" x1="650" y1="110" x2="730" y2="110"/>
-<circle class="p" cx="170" cy="110" r="6"/><circle class="p" cx="170" cy="110" r="6" style="animation-delay:2s;fill:#16a34a"/><circle class="p" cx="170" cy="110" r="6" style="animation-delay:4s;fill:#dc2626"/>
-<text class="s" x="450" y="195">Server never sees plaintext: only ciphertexts travel and are stored</text>
+.p{animation:mv 8s linear infinite;opacity:0}
+@keyframes mv{0%{opacity:0;transform:translateX(0)}4%{opacity:1}96%{opacity:1}100%{opacity:0;transform:translateX(var(--dx))}}
+.ar{stroke:#334155;stroke-width:2;marker-end:url(#a);fill:none}</style></defs>
+<rect width="1040" height="300" fill="#f8fafc"/>
+<rect class="b" x="10" y="70" width="170" height="90" rx="8"/><text class="t" x="95" y="100">Employee phone</text><text class="s" x="95" y="120">date · entry · leave</text><text class="s" x="95" y="136">SEAL encrypt (Keychain key)</text>
+<rect class="b" x="240" y="70" width="170" height="90" rx="8"/><text class="t" x="325" y="100">REST API</text><text class="s" x="325" y="120">POST /schedule/add…</text><text class="s" x="325" y="136">:5025 · ciphertexts</text>
+<rect class="b" x="470" y="70" width="190" height="90" rx="8" style="stroke:#7c3aed"/><text class="t" x="565" y="100">Homomorphic server</text><text class="s" x="565" y="120">SEAL Evaluator</text><text class="s" x="565" y="136">leave − entry (Sub)</text>
+<rect class="b" x="720" y="70" width="150" height="90" rx="8"/><text class="t" x="795" y="100">MySQL</text><text class="s" x="795" y="120">user_time</text><text class="s" x="795" y="136">entry · leave · balance</text>
+<path class="ar" d="M180,105 L240,105"/><path class="ar" d="M410,105 L470,105"/><path class="ar" d="M660,140 C690,200 450,200 410,140" /><path class="ar" d="M410,90 C560,20 700,20 720,90"/>
+<text class="s" x="560" y="215">encrypted balance returned to the API</text>
+<text class="s" x="565" y="35">API stores entry, leave and balance (all ciphertexts)</text>
+<circle class="p" cx="180" cy="105" r="6" fill="#2563eb" style="--dx:60px"/>
+<circle class="p" cx="410" cy="105" r="6" fill="#16a34a" style="--dx:60px;animation-delay:2s"/>
+<text class="s" x="520" y="270">The server never sees plaintext: it only handles ciphertexts, Argon2 hashes and metadata</text>
 </svg>

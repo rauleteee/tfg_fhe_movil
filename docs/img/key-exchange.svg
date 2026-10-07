@@ -1,26 +1,33 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" font-family="Helvetica,Arial,sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 548" font-family="Helvetica,Arial,sans-serif">
 <defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8z" fill="#334155"/></marker>
 <style>
 .h{font-size:14px;font-weight:700;fill:#0f172a;text-anchor:middle}
-.m{font-size:12px;fill:#1e293b;text-anchor:middle}
+.m{font-size:11.5px;fill:#1e293b;text-anchor:middle}
 .lf{stroke:#94a3b8;stroke-dasharray:4 4}
 .ar{stroke:#334155;stroke-width:2;marker-end:url(#a)}
-.st{opacity:0;animation:show 16s infinite}
-@keyframes show{0%{opacity:0}3%,92%{opacity:1}97%,100%{opacity:0}}
-.k{fill:#f59e0b;opacity:0}
+.st{opacity:0;animation:show 20.0s infinite}
+@keyframes show{0%{opacity:0}3%,90%{opacity:1}96%,100%{opacity:0}}
 </style></defs>
-<rect width="900" height="520" fill="#f8fafc"/>
-<g class="h"><text x="120" y="30">Employee</text><text x="360" y="30">SSL Key Server</text><text x="600" y="30">Firebase FCM</text><text x="810" y="30">HR Manager</text></g>
-<g class="lf"><line x1="120" y1="40" x2="120" y2="500"/><line x1="360" y1="40" x2="360" y2="500"/><line x1="600" y1="40" x2="600" y2="500"/><line x1="810" y1="40" x2="810" y2="500"/></g>
-<g class="st" style="animation-delay:0s"><line class="ar" x1="120" y1="70" x2="360" y2="70"/><text class="m" x="240" y="62">1 TLS handshake (mutual X.509)</text></g>
-<g class="st" style="animation-delay:1s"><line class="ar" x1="120" y1="110" x2="360" y2="110"/><text class="m" x="240" y="102">2 SKReq (needs private key)</text></g>
-<g class="st" style="animation-delay:2s"><line class="ar" x1="360" y1="150" x2="120" y2="150"/><text class="m" x="240" y="142">3 "Client?"</text></g>
-<g class="st" style="animation-delay:3s"><line class="ar" x1="120" y1="190" x2="360" y2="190"/><text class="m" x="240" y="182">4 username</text></g>
-<g class="st" style="animation-delay:4s"><line class="ar" x1="360" y1="230" x2="600" y2="230"/><text class="m" x="480" y="222">5 push request</text></g>
-<g class="st" style="animation-delay:5s"><line class="ar" x1="600" y1="270" x2="810" y2="270"/><text class="m" x="705" y="262">6 "Secret key retrieval"</text></g>
-<g class="st" style="animation-delay:6s"><line class="ar" x1="810" y1="310" x2="360" y2="310"/><text class="m" x="585" y="302">7 TLS + SECRET KEY (username)</text></g>
-<g class="st" style="animation-delay:7s"><line class="ar" x1="360" y1="350" x2="600" y2="350"/><text class="m" x="480" y="342">8 "key ready"</text></g>
-<g class="st" style="animation-delay:8s"><line class="ar" x1="600" y1="390" x2="120" y2="390"/><text class="m" x="360" y="382">9 notification to employee</text></g>
-<g class="st" style="animation-delay:9s"><line class="ar" x1="120" y1="430" x2="360" y2="430"/><text class="m" x="240" y="422">10 new TLS handshake</text></g>
-<g class="st" style="animation-delay:10s"><line class="ar" x1="360" y1="470" x2="120" y2="470" stroke="#d97706"/><text class="m" x="240" y="462">11 SECRET KEY → Keychain/Keystore</text></g>
+<rect width="1040" height="548" fill="#f8fafc"/>
+<text class="h" x="90" y="28">Employee</text><line class="lf" x1="90" y1="40" x2="90" y2="528"/>
+<text class="h" x="310" y="28">Key Exchange Server</text><line class="lf" x1="310" y1="40" x2="310" y2="528"/>
+<text class="h" x="520" y="28">REST API + MySQL</text><line class="lf" x1="520" y1="40" x2="520" y2="528"/>
+<text class="h" x="720" y="28">Firebase FCM</text><line class="lf" x1="720" y1="40" x2="720" y2="528"/>
+<text class="h" x="940" y="28">HR Manager</text><line class="lf" x1="940" y1="40" x2="940" y2="528"/>
+<g class="st" style="animation-delay:0.0s"><line class="ar" x1="90" y1="70" x2="310" y2="70"/><text class="m" x="200.0" y="64">1 TLS 1.2 mutual X.509 auth · HelloServer / HelloClient</text></g>
+<g class="st" style="animation-delay:1.0s"><line class="ar" x1="90" y1="98" x2="310" y2="98"/><text class="m" x="200.0" y="92">2 SKReq</text></g>
+<g class="st" style="animation-delay:2.0s"><line class="ar" x1="310" y1="126" x2="90" y2="126"/><text class="m" x="200.0" y="120">3 Client?</text></g>
+<g class="st" style="animation-delay:3.0s"><line class="ar" x1="90" y1="154" x2="310" y2="154"/><text class="m" x="200.0" y="148">4 username$</text></g>
+<g class="st" style="animation-delay:4.0s"><line class="ar" x1="310" y1="182" x2="520" y2="182"/><text class="m" x="415.0" y="176">5 GET token/manager, token/{user}</text></g>
+<g class="st" style="animation-delay:5.0s"><line class="ar" x1="520" y1="210" x2="310" y2="210"/><text class="m" x="415.0" y="204">6 device tokens</text></g>
+<g class="st" style="animation-delay:6.0s"><line class="ar" x1="310" y1="238" x2="720" y2="238"/><text class="m" x="515.0" y="232">7 push "Secret key retrieval"</text></g>
+<g class="st" style="animation-delay:7.0s"><line class="ar" x1="720" y1="266" x2="940" y2="266"/><text class="m" x="830.0" y="260">8 notification (wakes Manager)</text></g>
+<g class="st" style="animation-delay:8.0s"><line class="ar" x1="310" y1="294" x2="90" y2="294"/><text class="m" x="200.0" y="288">9 "Received username correctly" · tunnel closed</text></g>
+<g class="st" style="animation-delay:9.0s"><line class="ar" x1="940" y1="322" x2="310" y2="322"/><text class="m" x="625.0" y="316">10 new TLS 1.2 · "Requested secret key!" (Manager authorizes)</text></g>
+<g class="st" style="animation-delay:10.0s"><line class="ar" x1="310" y1="350" x2="940" y2="350"/><text class="m" x="625.0" y="344">11 "Tell me!"</text></g>
+<g class="st" style="animation-delay:11.0s"><line class="ar" x1="940" y1="378" x2="310" y2="378"/><text class="m" x="625.0" y="372">12 secret key over tunnel</text></g>
+<g class="st" style="animation-delay:12.0s"><line class="ar" x1="310" y1="406" x2="720" y2="406"/><text class="m" x="515.0" y="400">13 push "key retrieved"</text></g>
+<g class="st" style="animation-delay:13.0s"><line class="ar" x1="720" y1="434" x2="90" y2="434"/><text class="m" x="405.0" y="428">14 notification to employee</text></g>
+<g class="st" style="animation-delay:14.0s"><line class="ar" x1="90" y1="462" x2="310" y2="462"/><text class="m" x="200.0" y="456">15 new TLS 1.2 · "TellMeTheSecret"</text></g>
+<g class="st" style="animation-delay:15.0s"><line class="ar" x1="310" y1="490" x2="90" y2="490"/><text class="m" x="200.0" y="484">16 secret key → Keychain (wiped on logout)</text></g>
 </svg>

@@ -53,13 +53,13 @@ Personal data stored in company databases is one of the most valuable — and mo
 
 ## 🏗️ Architecture
 
-The system is made of **three modules** deployed in a client–server architecture, with the two back-end services running as independent microservices on a remote virtual server (Ubuntu 20.04 on IONOS).
+The system is made of **three modules** in a client–server architecture. On the remote virtual server (Ubuntu 20.04 on IONOS) two independent microservices run: the **REST API** (the only component that talks to MySQL) and the **key exchange server**. The **homomorphic server** role (SEAL `Evaluator`) only computes on ciphertexts, namely the daily hours balance, and never sees plaintext.
 
 <div align="center">
 
 ![System architecture](docs/img/architecture.svg)
 
-*Global architecture: the REST API + MySQL database and the SSL key-exchange service run on a remote "homomorphic server"; employees and the HR Manager connect from their phones.*
+*Global architecture: phones talk HTTP to the REST API (database access) and TLS 1.2 to the key exchange server. The API delegates the encrypted hours calculation to the homomorphic evaluator. In this prototype the evaluator is implemented inside the API process (`UserController.cs`, `addNewSchedule`). FCM is used only by the key exchange server.*
 
 </div>
 
