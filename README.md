@@ -53,7 +53,7 @@ Personal data stored in company databases is one of the most valuable — and mo
 
 ## 🏗️ Architecture
 
-The system is made of **three modules** in a client–server architecture. On the remote virtual server (Ubuntu 20.04 on IONOS) two independent microservices run: the **REST API** (the only component that talks to MySQL) and the **key exchange server**. The **homomorphic server** role (SEAL `Evaluator`) only computes on ciphertexts, namely the daily hours balance, and never sees plaintext.
+Besides the mobile clients, the system has three independent modules (deployed on an IONOS VM, Ubuntu 20.04): the **REST API**, the only component that talks to MySQL; the **homomorphic server**, which only computes the encrypted hours balance with the SEAL `Evaluator` and never sees plaintext; and the **key exchange server**.
 
 <div align="center">
 
@@ -66,7 +66,7 @@ The system is made of **three modules** in a client–server architecture. On th
 | Module | Folder | Port | Responsibility |
 |---|---|---|---|
 | 📱 **UsersFlow client** | [`UsersFlowClient/`](UsersFlowClient) | – | Xamarin.Forms mobile app: login, profile, schedule registration, user management. Encrypts/decrypts with the user's private key. |
-| 🌐 **REST API** | [`ApiRestUsersFlow/`](ApiRestUsersFlow) | `5025` (HTTP) | .NET Web API connected to MySQL. Stores encrypted data and runs the **homomorphic evaluator** (Microsoft SEAL) on ciphertexts. |
+| 🌐 **REST API** | [`ApiRestUsersFlow/`](ApiRestUsersFlow) | `5025` (HTTP) | .NET Web API connected to MySQL. Stores and serves encrypted data (CRUD) and delegates the encrypted hours calculation to the homomorphic server. |
 | 🔐 **Key exchange server** | [`KeyExchangeSSL/`](KeyExchangeSSL) | `10001` (TCP + SSL/TLS) | Multi-threaded TCP server implementing the custom key-exchange protocol and sending FCM notifications. |
 
 ### Design decisions
